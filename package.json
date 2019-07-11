@@ -1,0 +1,20 @@
+{
+    "name": "experimental-poker-odds",
+    "version": "1.0.0",
+    "description": "Run simulations to see experimental probabilities of hands winning",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nohorjo/experimental-poker-odds.git"
+    },
+    "author": "Muhammed Haque",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/nohorjo/experimental-poker-odds/issues"
+    },
+    "homepage": "https://github.com/nohorjo/experimental-poker-odds#readme"
+}
