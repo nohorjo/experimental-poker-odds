@@ -18,6 +18,7 @@
     },
     "homepage": "https://github.com/nohorjo/experimental-poker-odds#readme",
     "dependencies": {
-        "commander": "^2.20.0"
+        "commander": "^2.20.0",
+        "pokersolver": "^2.1.3"
     }
 }
