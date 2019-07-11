@@ -16,5 +16,8 @@
     "bugs": {
         "url": "https://github.com/nohorjo/experimental-poker-odds/issues"
     },
-    "homepage": "https://github.com/nohorjo/experimental-poker-odds#readme"
+    "homepage": "https://github.com/nohorjo/experimental-poker-odds#readme",
+    "dependencies": {
+        "commander": "^2.20.0"
+    }
 }
