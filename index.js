@@ -18,17 +18,17 @@ const startingHand = [
     getCardFromString(program.startingHand, 2),
 ];
 
-const community = [];
+const baseCommunity = [];
 
 if (program.communityCards) {
     for (let i = 0; i < program.communityCards.length; i += 2) {
-        community.push(getCardFromString(program.communityCards, i));
+        baseCommunity.push(getCardFromString(program.communityCards, i));
     }
 }
 
 const getDeck = () => ranks
     .map(rank => suits.map(suit => `${rank}${suit}`)).reduce((a, b) => [...a, ...b], [])
-    .filter(card => !startingHand.includes(card) && !community.includes(card))
+    .filter(card => !startingHand.includes(card) && !baseCommunity.includes(card))
     .sort(() => Math.random() - 0.5);
 
 
@@ -40,7 +40,7 @@ for (let runs = 1, wins = 0;; runs++) {
         others.push(deck.splice(0, 2));
     }
 
-    community.push(...deck.splice(0, 5 - community.length));
+    const community = [...baseCommunity, ...deck.splice(0, 5 - baseCommunity.length)];
     const yourHand = Hand.solve([...startingHand, ...community]);
     const otherHands = others.map(hand => Hand.solve([...hand, ...community]));
 
