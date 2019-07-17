@@ -1,8 +1,7 @@
 const program = require('commander');
 const { Hand } = require('pokersolver');
 
-const suits = ['s', 'd', 'c', 'h'];
-const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'];
+const { getShuffledDeck } = require('./deck');
 
 program
     .version(require('./package').version, '-v, --version')
@@ -34,10 +33,7 @@ if (program.communityCards) {
     }
 }
 
-const getDeck = () => ranks
-    .map(rank => suits.map(suit => `${rank}${suit}`)).reduce((a, b) => [...a, ...b], [])
-    .filter(card => !startingHand.includes(card) && !baseCommunity.includes(card))
-    .sort(() => Math.random() - 0.5);
+const getDeck = () => getShuffledDeck().filter(card => !startingHand.includes(card) && !baseCommunity.includes(card));
 
 const numberOfRuns = program.numberOfRuns * 1000 || Infinity;
 let wins = 0;
