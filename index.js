@@ -17,24 +17,10 @@ if (
     program.help();
 }
 
-const getCardFromString = (string, index) => string.substr(index, 2).split('').map((c, i) => c[i ? 'toLowerCase' : 'toUpperCase']()).join('');
-
-const startingHand = [
-    getCardFromString(program.startingHand, 0),
-    getCardFromString(program.startingHand, 2),
-];
-
-const baseCommunity = [];
-
-if (program.communityCards) {
-    for (let i = 0; i < program.communityCards.length; i += 2) {
-        baseCommunity.push(getCardFromString(program.communityCards, i));
-    }
-}
 
 runExperiment({
     numberOfRuns: program.numberOfRuns * 1000 || Infinity,
-    baseCommunity,
-    startingHand,
+    baseCommunityString: program.communityCards,
+    startingHandString: program.startingHand,
     numberOfPlayers: program.players,
 });

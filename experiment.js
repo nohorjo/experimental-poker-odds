@@ -7,13 +7,29 @@ const getDeck = ({
     baseCommunity,
 }) => getShuffledDeck().filter(card => !startingHand.includes(card) && !baseCommunity.includes(card));
 
+const getCardFromString = (string, index) => string.substr(index, 2).split('').map((c, i) => c[i ? 'toLowerCase' : 'toUpperCase']()).join('');
+
 module.exports = ({
     numberOfRuns,
-    baseCommunity,
-    startingHand,
+    baseCommunityString,
+    startingHandString,
     numberOfPlayers,
 }) => {
+    const startingHand = [
+        getCardFromString(startingHandString, 0),
+        getCardFromString(startingHandString, 2),
+    ];
+
+    const baseCommunity = [];
+
+    if (baseCommunityString) {
+        for (let i = 0; i < baseCommunityString.length; i += 2) {
+            baseCommunity.push(getCardFromString(baseCommunityString, i));
+        }
+    }
+
     let wins = 0;
+
     for (let runs = 1; runs < numberOfRuns; runs++) {
         const deck = getDeck({startingHand, baseCommunity});
         const others = [];
