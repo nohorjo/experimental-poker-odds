@@ -1,7 +1,6 @@
 const program = require('commander');
-const { Hand } = require('pokersolver');
 
-const { getShuffledDeck } = require('./deck');
+const runExperiment = require('./experiment');
 
 program
     .version(require('./package').version, '-v, --version')
@@ -33,30 +32,9 @@ if (program.communityCards) {
     }
 }
 
-const getDeck = () => getShuffledDeck().filter(card => !startingHand.includes(card) && !baseCommunity.includes(card));
-
-const numberOfRuns = program.numberOfRuns * 1000 || Infinity;
-let wins = 0;
-
-for (let runs = 1; runs < numberOfRuns; runs++) {
-    const deck = getDeck();
-    const others = [];
-
-    for (let p = program.players; p; p--) {
-        others.push(deck.splice(0, 2));
-    }
-
-    const community = [...baseCommunity, ...deck.splice(0, 5 - baseCommunity.length)];
-    const yourHand = Hand.solve([...startingHand, ...community]);
-    const otherHands = others.map(hand => Hand.solve([...hand, ...community]));
-
-    const [ winner ] = Hand.winners([yourHand, ...otherHands]);
-    
-    if (yourHand === winner)
-        wins++;
-    
-    if (numberOfRuns === Infinity)
-        process.stdout.write(`Runs: ${runs}, Wins: ${wins} - ${((wins * 100) / runs).toFixed(2)}%\r`);
-}
-
-console.log(`Runs: ${numberOfRuns}, Wins: ${wins} - ${((wins * 100) / numberOfRuns).toFixed(2)}%`);
+runExperiment({
+    numberOfRuns: program.numberOfRuns * 1000 || Infinity,
+    baseCommunity,
+    startingHand,
+    numberOfPlayers: program.players,
+});
