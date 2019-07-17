@@ -8,8 +8,16 @@ program
     .version(require('./package').version, '-v, --version')
     .option('-p, --players <n>', 'Number of other players', parseInt)
     .option('-s, --starting-hand <s>', 'Starting hand eg "AsTd" = Ace of Spades and Ten of Diamonds')
-    .option('-c, --community-cards <s>', 'Three, four or five comminity cards eg "Ks7sAh" = King of Spades, Seven of Spades and Ace of Hearts')
+    .option('-c, --community-cards [s]', 'Three, four or five comminity cards eg "Ks7sAh" = King of Spades, Seven of Spades and Ace of Hearts')
+    .option('-n, --number-of-runs [n]', 'Number of thousands of runs eg 5 = 5000 runs', parseInt)
     .parse(process.argv);
+
+if (
+    !program.players
+    || !program.startingHand
+) {
+    program.help();
+}
 
 const getCardFromString = (string, index) => string.substr(index, 2).split('').map((c, i) => c[i ? 'toLowerCase' : 'toUpperCase']()).join('');
 
@@ -31,8 +39,10 @@ const getDeck = () => ranks
     .filter(card => !startingHand.includes(card) && !baseCommunity.includes(card))
     .sort(() => Math.random() - 0.5);
 
+const numberOfRuns = program.numberOfRuns * 1000 || Infinity;
+let wins = 0;
 
-for (let runs = 1, wins = 0;; runs++) {
+for (let runs = 1; runs < numberOfRuns; runs++) {
     const deck = getDeck();
     const others = [];
 
@@ -48,6 +58,9 @@ for (let runs = 1, wins = 0;; runs++) {
     
     if (yourHand === winner)
         wins++;
-
-    process.stdout.write(`Runs: ${runs}, Wins: ${wins} - ${((wins * 100) / runs).toFixed(2)}%\r`);
+    
+    if (numberOfRuns === Infinity)
+        process.stdout.write(`Runs: ${runs}, Wins: ${wins} - ${((wins * 100) / runs).toFixed(2)}%\r`);
 }
+
+console.log(`Runs: ${numberOfRuns}, Wins: ${wins} - ${((wins * 100) / numberOfRuns).toFixed(2)}%`);
