@@ -1,6 +1,6 @@
 {
     "name": "experimental-poker-odds",
-    "version": "1.0.0",
+    "version": "1.1.1",
     "description": "Run simulations to see experimental probabilities of hands winning",
     "main": "index.js",
     "scripts": {
