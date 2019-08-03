@@ -8,6 +8,20 @@ const getDeck = ({
 }) => getShuffledDeck().filter(card => !startingHand.includes(card) && !baseCommunity.includes(card));
 
 const getCardFromString = (string, index) => string.substr(index, 2).split('').map((c, i) => c[i ? 'toLowerCase' : 'toUpperCase']()).join('');
+const getSomewhatRandomisedCards = string => {
+    const suits = ['h', 'd', 's', 'c'].sort(() => Math.random() - 0.5);
+
+    let [ card1, card2, suitedState ] = string.toLowerCase().split('');
+
+    suitedState = card1 === card2 ? false : suitedState !== 'u';
+
+    card1 += suits.pop();
+    card2 += suitedState ? card1[1] : suits.pop();
+
+    console.log('Starting hand', card1, card2);
+
+    return [card1, card2];
+};
 
 module.exports = ({
     numberOfRuns,
@@ -15,10 +29,10 @@ module.exports = ({
     startingHandString,
     numberOfPlayers,
 }) => {
-    const startingHand = [
+    const startingHand = startingHandString.length == 4 ? [
         getCardFromString(startingHandString, 0),
         getCardFromString(startingHandString, 2),
-    ];
+    ] : getSomewhatRandomisedCards(startingHandString);
 
     const baseCommunity = [];
 
